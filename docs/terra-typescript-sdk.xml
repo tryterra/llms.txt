@@ -272,6 +272,7 @@ terra-client-js
 │   │       ├── LargeRequestProcessingResponse.ts
 │   │       ├── LargeRequestSendingEvent.ts
 │   │       ├── LargeRequestSendingWebhook.ts
+│   │       ├── Low.ts
 │   │       ├── Meal.ts
 │   │       ├── MeasurementDataSample.ts
 │   │       ├── MeasurementsData.ts
@@ -285,6 +286,7 @@ terra-client-js
 │   │       ├── MetData.ts
 │   │       ├── MetSample.ts
 │   │       ├── MovementData.ts
+│   │       ├── Muscle.ts
 │   │       ├── NoDataReturned.ts
 │   │       ├── NotFoundErrorBody.ts
 │   │       ├── Nutrition.ts
@@ -372,6 +374,7 @@ terra-client-js
 │   │       ├── TimePlannedWorkoutStepDuration.ts
 │   │       ├── TimestampLocalization.ts
 │   │       ├── TorqueSample.ts
+│   │       ├── TrendArrow.ts
 │   │       ├── TssData.ts
 │   │       ├── TssPlannedWorkoutStepTarget.ts
 │   │       ├── TssSample.ts
@@ -664,7 +667,7 @@ export default {
 ```json
 {
     "name": "terra-api",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "private": false,
     "repository": "https://github.com/tryterra/terra-client-js",
     "type": "commonjs",
@@ -2463,8 +2466,8 @@ export class TerraClient {
                     "dev-id": _options?.devId,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "terra-api",
-                    "X-Fern-SDK-Version": "2.0.1",
-                    "User-Agent": "terra-api/2.0.1",
+                    "X-Fern-SDK-Version": "2.0.2",
+                    "User-Agent": "terra-api/2.0.2",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -7071,8 +7074,10 @@ export * from "./UserGetAllUserIDsResponse.js";
 import * as Terra from "../index.js";
 
 export interface AFibClassificationSample {
-    timestamp: string;
-    afib_classification: Terra.Inconclusive;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Flag indicating the atrial fibrillation classification of the individual */
+    afib_classification?: Terra.Inconclusive;
 }
 
 ```
@@ -7239,8 +7244,9 @@ export type ActivityLevel = number;
 import * as Terra from "../index.js";
 
 export interface ActivityLevelSample {
-    timestamp: string;
-    level: Terra.ActivityLevel;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    level?: Terra.ActivityLevel;
 }
 
 ```
@@ -7539,9 +7545,12 @@ export interface BloodPressureData {
  */
 
 export interface BloodPressureSample {
-    timestamp: string;
-    diastolic_bp: number;
-    systolic_bp: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's diastolic blood pressure, in mmHg */
+    diastolic_bp?: number;
+    /** User's systolic blood pressure, in mmHg */
+    systolic_bp?: number;
 }
 
 ```
@@ -7586,8 +7595,9 @@ export interface Body {
  */
 
 export interface BodyBatterySample {
-    timestamp: string;
-    level: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    level?: number;
 }
 
 ```
@@ -7665,8 +7675,10 @@ export type Breath = number;
  */
 
 export interface BreathSample {
-    timestamp: string;
-    breaths_per_min: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time */
+    timestamp?: string;
+    /** User's respiration rate */
+    breaths_per_min?: number;
 }
 
 ```
@@ -7771,9 +7783,10 @@ export namespace CadencePlannedWorkoutStepTarget {
  */
 
 export interface CadenceSample {
-    timestamp: string;
-    cadence_rpm: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    cadence_rpm?: number;
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -7785,9 +7798,10 @@ export interface CadenceSample {
  */
 
 export interface CalorieSample {
-    timestamp: string;
-    calories: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    calories?: number;
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -8168,12 +8182,18 @@ export interface DailyMetadata {
  */
 
 export interface DailyPatternSample {
-    time_from_midnight: number;
-    percentile_5: number;
-    percentile_25: number;
-    percentile_50: number;
-    percentile_75: number;
-    percentile_95: number;
+    /** Hour of the day, represented as an integer from 0 to 23, where 0 is midnight and 23 is the hour before the next midnight. */
+    time_from_midnight?: number;
+    /** Percentile 5 of the glucose level at the given time of day. */
+    percentile_5?: number;
+    /** Percentile 25 of the glucose level at the given time of day. */
+    percentile_25?: number;
+    /** Percentile 50 of the glucose level at the given time of day. */
+    percentile_50?: number;
+    /** Percentile 75 of the glucose level at the given time of day. */
+    percentile_75?: number;
+    /** Percentile 95 of the glucose level at the given time of day. */
+    percentile_95?: number;
 }
 
 ```
@@ -8475,9 +8495,12 @@ export namespace DistancePlannedWorkoutStepDuration {
  */
 
 export interface DistanceSample {
-    timestamp: string;
-    distance_meters: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Cumulative distance covered up to associated timestamp, since the start of the payload */
+    distance_meters?: number;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -8489,10 +8512,14 @@ export interface DistanceSample {
  */
 
 export interface DrinkSample {
-    timestamp: string;
-    drink_volume: number;
-    drink_unit: string;
-    drink_name: string;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time */
+    timestamp?: string;
+    /** Volume of drink consumed */
+    drink_volume?: number;
+    /** Unit of measurement for the drink */
+    drink_unit?: string;
+    /** Name of drink consumed. */
+    drink_name?: string;
 }
 
 ```
@@ -8506,10 +8533,14 @@ export interface DrinkSample {
 import * as Terra from "../index.js";
 
 export interface EcgReading {
-    start_timestamp: string;
-    avg_hr_bpm: number;
-    afib_classification: Terra.Inconclusive;
-    raw_signal: Terra.RawEcgSample[];
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    start_timestamp?: string;
+    /** User's average heart rate throughout the day, in beats per minute (bpm). */
+    avg_hr_bpm?: number;
+    /** User's afib classification throught the day. */
+    afib_classification?: Terra.Inconclusive;
+    /** List of raw ECG readings sampled through the day. */
+    raw_signal?: Terra.RawEcgSample[];
 }
 
 ```
@@ -8544,9 +8575,12 @@ export interface ElevationData {
  */
 
 export interface ElevationSample {
-    timestamp: string;
-    elev_meters: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's altitude at a given point in time, in meters above sea level. */
+    elev_meters?: number;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -8623,9 +8657,12 @@ export namespace FixedRestPlannedWorkoutStepDuration {
  */
 
 export interface FloorsClimbedSample {
-    timestamp: string;
-    floors_climbed: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Cumulative number of elevation gain measured in floors climbed up to associated timestamp, since the start of the payload */
+    floors_climbed?: number;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -8663,11 +8700,17 @@ export interface GlucoseData {
  * This file was auto-generated by Fern from our API Definition.
  */
 
+import * as Terra from "../index.js";
+
 export interface GlucoseDataSample {
-    timestamp: string;
-    blood_glucose_mg_per_dL: number;
-    glucose_level_flag: number;
-    trend_arrow: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's blood glucose reading */
+    blood_glucose_mg_per_dL?: number;
+    /** Flag indicating state of user's blood glucose level */
+    glucose_level_flag?: Terra.Low;
+    /** Flag indicating the current trend in the user's blood glucose level (e.g. rising, constant, falling) */
+    trend_arrow?: Terra.TrendArrow;
 }
 
 ```
@@ -8834,10 +8877,14 @@ export interface HeartRateDataDetailed {
 import * as Terra from "../index.js";
 
 export interface HeartRateDataSample {
-    timestamp: string;
-    bpm: number;
-    timer_duration_seconds: number;
-    context: Terra.HeartRateContext;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's heart rate in bpm */
+    bpm?: number;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
+    /** Represents the context in which heart rate was measured. */
+    context?: Terra.HeartRateContext;
 }
 
 ```
@@ -8878,8 +8925,10 @@ export interface HeartRateDataSummary {
  */
 
 export interface HeartRateVariabilityDataSampleRmssd {
-    timestamp: string;
-    hrv_rmssd: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's Heart Rate Variability, computed using RMSSD */
+    hrv_rmssd?: number;
 }
 
 ```
@@ -8891,8 +8940,10 @@ export interface HeartRateVariabilityDataSampleRmssd {
  */
 
 export interface HeartRateVariabilityDataSampleSdnn {
-    timestamp: string;
-    hrv_sdnn: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's Heart Rate Variability, computed using SDNN */
+    hrv_sdnn?: number;
 }
 
 ```
@@ -8906,11 +8957,16 @@ export interface HeartRateVariabilityDataSampleSdnn {
 import * as Terra from "../index.js";
 
 export interface HeartRateZoneData {
-    zone: Terra.Other;
-    start_percentage: number;
-    end_percentage: number;
-    name: string;
-    duration_seconds: number;
+    /** Heart rate zone designation */
+    zone?: Terra.Other;
+    /** Start percentage (based off user's max HR) of the HR zone */
+    start_percentage?: number;
+    /** End percentage (based off user's max HR) of the HR zone */
+    end_percentage?: number;
+    /** Name of the associated heart rate zone */
+    name?: string;
+    /** Duration spent in the heart rate zone */
+    duration_seconds?: number;
 }
 
 ```
@@ -9135,8 +9191,10 @@ export interface HydrationData {
  */
 
 export interface HydrationMeasurementSample {
-    timestamp: string;
-    hydration_kg: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Total body water composition of the user, in kilograms. */
+    hydration_kg?: number;
 }
 
 ```
@@ -9309,9 +9367,12 @@ export interface KetoneData {
 import * as Terra from "../index.js";
 
 export interface KetoneSample {
-    timestamp: string;
-    ketone_mg_per_dL: number;
-    sample_type: Terra.Breath;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Ketone in mg per dL */
+    ketone_mg_per_dL?: number;
+    /** Flag indicating the ketone sample type (e.g. blood, breath, urine) */
+    sample_type?: Terra.Breath;
 }
 
 ```
@@ -9340,13 +9401,22 @@ export interface LapData {
 import * as Terra from "../index.js";
 
 export interface LapSample {
-    start_time: string;
-    end_time: string;
-    distance_meters: number;
-    calories: number;
-    total_strokes: number;
-    stroke_type: Terra.StrokeType;
-    avg_speed_meters_per_second: number;
+    /** Calories burned during the lap */
+    calories?: number;
+    /** Average heart rate in bpm, for the Lap sample */
+    avg_hr_bpm?: number;
+    /** The start time of the associated lap, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time */
+    start_time?: string;
+    /** Average speed of the user during the lap */
+    avg_speed_meters_per_second?: number;
+    /** Distance covered during the lap */
+    distance_meters?: number;
+    /** Total strokes performed during the lap - only relevant for swimming activities */
+    total_strokes?: number;
+    /** The end time of the associated lap, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time */
+    end_time?: string;
+    /** Stroke type - only relevant for swimming activities */
+    stroke_type?: Terra.StrokeType;
 }
 
 ```
@@ -9422,6 +9492,19 @@ export interface LargeRequestSendingEvent {
 import * as Terra from "../index.js";
 
 export type LargeRequestSendingWebhook = Terra.LargeRequestSendingEvent;
+
+```
+</file>
+<file path="terra-client-js/src/api/types/Low.ts">
+```ts
+/**
+ * This file was auto-generated by Fern from our API Definition.
+ */
+
+/**
+ * Blood glucose level is below the normal range (hypoglycemia).
+ */
+export type Low = number;
 
 ```
 </file>
@@ -9652,9 +9735,9 @@ import * as Terra from "../index.js";
 
 export interface MenstruationFlowSample {
     /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
-    timestamp: string;
+    timestamp?: string;
     /** Flag indicating the strength of the user's menstrual flow. */
-    flow: Terra.Had;
+    flow?: Terra.Had;
 }
 
 ```
@@ -9721,8 +9804,9 @@ export interface MetData {
  */
 
 export interface MetSample {
-    timestamp: string;
-    level: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    level?: number;
 }
 
 ```
@@ -9767,6 +9851,19 @@ export interface MovementData {
     /** Array of the datapoints for the user's torque sampled throughout the workout. */
     torque_samples?: Terra.TorqueSample[];
 }
+
+```
+</file>
+<file path="terra-client-js/src/api/types/Muscle.ts">
+```ts
+/**
+ * This file was auto-generated by Fern from our API Definition.
+ */
+
+/**
+ * Oxygen saturation measurement for muscle.
+ */
+export type Muscle = number;
 
 ```
 </file>
@@ -10173,9 +10270,15 @@ export interface OxygenSaturationData {
  * This file was auto-generated by Fern from our API Definition.
  */
 
+import * as Terra from "../index.js";
+
 export interface OxygenSaturationSample {
-    timestamp: string;
-    percentage: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's oxygen saturation percentage - referring to either SpO2 or SmO2, based on the `type` field */
+    percentage?: number;
+    /** Type of oxygen saturation measurement (i.e. blood vs muscle) */
+    type?: Terra.Muscle;
 }
 
 ```
@@ -11038,9 +11141,12 @@ export interface PositionData {
  */
 
 export interface PositionSample {
-    timestamp: string;
-    coords_lat_lng_deg: number[];
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Position of the user a given point in time, represented by a 2-value array of latitude, longitude, wherein each of the two numbers can be nullable */
+    coords_lat_lng_deg?: unknown[];
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -11242,9 +11348,12 @@ export namespace PowerPlannedWorkoutStepTarget {
  */
 
 export interface PowerSample {
-    timestamp: string;
-    watts: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Power generated at a given instant in time, in Watts */
+    watts?: number;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -11281,8 +11390,10 @@ export interface ProcessingEvent {
  */
 
 export interface PulseVelocitySample {
-    timestamp: string;
-    pulse_wave_velocity_meters_per_second: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's Pulse Wave Velocity measurement - velocity at which the blood pressure pulse propagates through the circulatory system */
+    pulse_wave_velocity_meters_per_second?: number;
 }
 
 ```
@@ -11349,8 +11460,10 @@ export interface RateLimitRequestProcessing {
  */
 
 export interface RawEcgSample {
-    potential_uV: number;
-    timestamp: string;
+    /** Potential uV in the RawECG Sample */
+    potential_uV?: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
 }
 
 ```
@@ -11738,8 +11851,9 @@ export interface SleepEvent {
 import * as Terra from "../index.js";
 
 export interface SleepHypnogramSample {
-    timestamp: string;
-    level: Terra.SleepLevel;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    level?: Terra.SleepLevel;
 }
 
 ```
@@ -11849,8 +11963,10 @@ export interface SnoringData {
  */
 
 export interface SnoringSample {
-    timestamp: string;
-    duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Duration of snoring episode, in seconds */
+    duration_seconds?: number;
 }
 
 ```
@@ -11930,9 +12046,10 @@ export namespace SpeedPlannedWorkoutStepTarget {
  */
 
 export interface SpeedSample {
-    timestamp: string;
-    speed_meters_per_second: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    speed_meters_per_second?: number;
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -11944,9 +12061,10 @@ export interface SpeedSample {
  */
 
 export interface StepSample {
-    timestamp: string;
-    steps: number;
-    timer_duration_seconds: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    steps?: number;
+    timer_duration_seconds?: number;
 }
 
 ```
@@ -12168,8 +12286,9 @@ export interface StressData {
  */
 
 export interface StressSample {
-    timestamp: string;
-    level: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    level?: number;
 }
 
 ```
@@ -12408,8 +12527,10 @@ export interface TemperatureData {
  */
 
 export interface TemperatureSample {
-    timestamp: string;
-    temperature_celsius: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** Temperature value in degrees Celsius. */
+    temperature_celsius?: number;
 }
 
 ```
@@ -12507,10 +12628,26 @@ export type TimestampLocalization = number;
  */
 
 export interface TorqueSample {
-    timestamp: string;
-    timer_duration_seconds: number;
-    torque_newton_meters: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time */
+    timestamp?: string;
+    /** Time elapsed since the start of the workout, subtracting time during which the recording was paused */
+    timer_duration_seconds?: number;
+    /** Torque generated at a given instant in time, in Newton-meters */
+    torque_newton_meters?: number;
 }
+
+```
+</file>
+<file path="terra-client-js/src/api/types/TrendArrow.ts">
+```ts
+/**
+ * This file was auto-generated by Fern from our API Definition.
+ */
+
+/**
+ * Glucose level is increasing rapidly.
+ */
+export type TrendArrow = number;
 
 ```
 </file>
@@ -12598,12 +12735,12 @@ export namespace TssPlannedWorkoutStepTarget {
  */
 
 export interface TssSample {
-    planned: number;
-    actual: number;
-    method: string;
-    intensity_factor_planned: number;
-    intensity_factor_actual: number;
-    normalized_power_watts: number;
+    planned?: number;
+    actual?: number;
+    method?: string;
+    intensity_factor_planned?: number;
+    intensity_factor_actual?: number;
+    normalized_power_watts?: number;
 }
 
 ```
@@ -12761,8 +12898,10 @@ export type UserReauthWebhook = Terra.UserReauthEvent;
  */
 
 export interface Vo2MaxSample {
-    timestamp: string;
-    vo2max_ml_per_min_per_kg: number;
+    /** Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time. */
+    timestamp?: string;
+    /** User's VO2Max - maximum amount of oxygen the user's body can utilize during exercise */
+    vo2max_ml_per_min_per_kg?: number;
 }
 
 ```
@@ -12990,6 +13129,7 @@ export * from "./CadenceSample.js";
 export * from "./SpeedSample.js";
 export * from "./TorqueSample.js";
 export * from "./MovementData.js";
+export * from "./Muscle.js";
 export * from "./OxygenSaturationSample.js";
 export * from "./Vo2MaxSample.js";
 export * from "./OxygenData.js";
@@ -13023,6 +13163,8 @@ export * from "./MeasurementsData.js";
 export * from "./BodyMetadata.js";
 export * from "./TemperatureSample.js";
 export * from "./TemperatureData.js";
+export * from "./Low.js";
+export * from "./TrendArrow.js";
 export * from "./GlucoseDataSample.js";
 export * from "./DailyPatternSample.js";
 export * from "./GlucoseData.js";
@@ -14900,7 +15042,7 @@ export { TerraEnvironment } from "./environments.js";
 </file>
 <file path="terra-client-js/src/version.ts">
 ```ts
-export const SDK_VERSION = "2.0.1";
+export const SDK_VERSION = "2.0.2";
 
 ```
 </file>
@@ -17828,7 +17970,6 @@ describe("Menstruation", () => {
                         last_updated_time: "2022-12-12T14:03:05.000000-05:00",
                         cycle_length_days: "28",
                         is_predicted_cycle: "true",
-                        menstruation_flow: [{ timestamp: "2022-11-23T09:00:00.000000+02:00", flow: 1.1 }],
                     },
                 },
             ],
@@ -17866,12 +18007,6 @@ describe("Menstruation", () => {
                         last_updated_time: "2022-12-12T14:03:05.000000-05:00",
                         cycle_length_days: "28",
                         is_predicted_cycle: "true",
-                        menstruation_flow: [
-                            {
-                                timestamp: "2022-11-23T09:00:00.000000+02:00",
-                                flow: 1.1,
-                            },
-                        ],
                     },
                 },
             ],
@@ -17909,10 +18044,10 @@ describe("Nutrition", () => {
                 {
                     drink_samples: [
                         {
-                            timestamp: "timestamp",
-                            drink_volume: 1.1,
-                            drink_unit: "drink_unit",
-                            drink_name: "drink_name",
+                            timestamp: "2022-11-23T09:00:00.000000+02:00",
+                            drink_volume: 250,
+                            drink_unit: "ml",
+                            drink_name: "Water",
                         },
                     ],
                     meals: [
@@ -18015,10 +18150,10 @@ describe("Nutrition", () => {
                 {
                     drink_samples: [
                         {
-                            timestamp: "timestamp",
-                            drink_volume: 1.1,
-                            drink_unit: "drink_unit",
-                            drink_name: "drink_name",
+                            timestamp: "2022-11-23T09:00:00.000000+02:00",
+                            drink_volume: 250,
+                            drink_unit: "ml",
+                            drink_name: "Water",
                         },
                     ],
                     meals: [
